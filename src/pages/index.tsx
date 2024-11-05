@@ -8,6 +8,8 @@ import {
 	DialogTitle,
 	Button,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import {
 	team,
@@ -15,16 +17,26 @@ import {
 } from "../libs/teamData"; // Importing team data
 
 const Home: React.FC = () => {
+	const theme = useTheme();
+	const isMobile =
+		useMediaQuery(
+			theme.breakpoints.down(
+				"sm"
+			)
+		); // Checks if the screen size is small
 	const numImages =
 		team.length;
 	const angle =
 		360 / numImages;
 	const translateZDistance =
-		350 /
-		(2 *
-			Math.tan(
-				Math.PI / numImages
-			));
+		isMobile
+			? 200
+			: 350 /
+			  (2 *
+					Math.tan(
+						Math.PI /
+							numImages
+					)); // Adjust carousel size for mobile
 	const [open, setOpen] =
 		useState(true);
 	const [
@@ -77,7 +89,9 @@ const Home: React.FC = () => {
 						"center",
 					alignItems:
 						"center",
-					minHeight: "100vh",
+					width: "100vw", // Full viewport width to prevent horizontal scrolling
+					height: "100vh", // Full viewport height to prevent vertical scrolling
+					overflow: "hidden", // Prevent scrolling on mobile
 					background:
 						"linear-gradient(150deg, #c4ab6c, #383840)",
 					perspective:
@@ -85,14 +99,21 @@ const Home: React.FC = () => {
 					filter: open
 						? "blur(5px)"
 						: "none",
+					padding: isMobile
+						? 2
+						: 0,
 				}}>
 				<Box
 					className="box"
 					sx={{
 						position:
 							"relative",
-						width: "200px",
-						height: "280px",
+						width: isMobile
+							? "150px"
+							: "200px", // Adjust carousel width for mobile
+						height: isMobile
+							? "200px"
+							: "280px", // Adjust carousel height for mobile
 						transformStyle:
 							"preserve-3d",
 						animation: open
@@ -218,6 +239,10 @@ const Home: React.FC = () => {
 						sx={{
 							fontWeight:
 								"bold",
+							fontSize:
+								isMobile
+									? "1.25rem"
+									: "1.5rem", // Adjust font size for mobile
 						}}>
 						Not your ordinary
 						financial
@@ -230,7 +255,9 @@ const Home: React.FC = () => {
 							color:
 								"#e0cfa9",
 							fontSize:
-								"1.1rem",
+								isMobile
+									? "0.9rem"
+									: "1.1rem", // Adjust font size for mobile
 							textAlign:
 								"center",
 						}}>
@@ -272,6 +299,10 @@ const Home: React.FC = () => {
 							borderRadius:
 								"10px",
 							width: "100%",
+							fontSize:
+								isMobile
+									? "0.9rem"
+									: "1rem", // Adjust button font size for mobile
 						}}>
 						Meet the Team
 					</Button>
@@ -286,18 +317,28 @@ const Home: React.FC = () => {
 				onClose={
 					handleClosePersonDialog
 				}
+				fullScreen={isMobile} // Fullscreen on mobile for better display
 				PaperProps={{
 					sx: {
-						maxWidth: 600,
+						maxWidth: isMobile
+							? "100%"
+							: 600,
 						p: 3,
 						borderRadius:
-							"15px",
+							isMobile
+								? 0
+								: "15px", // No border radius for mobile full screen
 						color: "#383840",
 					},
 				}}>
 				<DialogContent>
 					<Box
 						display="flex"
+						flexDirection={
+							isMobile
+								? "column"
+								: "row"
+						}
 						alignItems="center"
 						mb={2}>
 						{/* Display Person Image */}
@@ -311,15 +352,29 @@ const Home: React.FC = () => {
 							}
 							sx={{
 								width:
-									"115px",
+									isMobile
+										? "100%"
+										: "115px",
 								height:
-									"220px",
+									isMobile
+										? "auto"
+										: "220px",
 								borderRadius:
 									"8px",
-								mr: 3,
+								mr: isMobile
+									? 0
+									: 3,
+								mb: isMobile
+									? 2
+									: 0,
 							}}
 						/>
-						<Box>
+						<Box
+							textAlign={
+								isMobile
+									? "center"
+									: "left"
+							}>
 							{/* Title */}
 							<Typography
 								variant="h5"
@@ -329,6 +384,10 @@ const Home: React.FC = () => {
 										"bold",
 									color:
 										"#383840",
+									fontSize:
+										isMobile
+											? "1.25rem"
+											: "1.5rem",
 								}}>
 								Hi,{" "}
 								<span
@@ -344,7 +403,13 @@ const Home: React.FC = () => {
 							<Typography
 								variant="subtitle1"
 								color="textSecondary"
-								gutterBottom>
+								gutterBottom
+								sx={{
+									fontSize:
+										isMobile
+											? "1rem"
+											: "1.1rem",
+								}}>
 								{
 									selectedPerson?.position
 								}
@@ -356,11 +421,14 @@ const Home: React.FC = () => {
 								sx={{
 									fontStyle:
 										"italic",
+									fontSize:
+										isMobile
+											? "0.9rem"
+											: "1rem",
 								}}>
-								Visionary ·
-								International
-								Finance Whiz ·
-								Overachiever
+								{
+									selectedPerson?.about
+								}
 							</Typography>
 						</Box>
 					</Box>
@@ -372,6 +440,14 @@ const Home: React.FC = () => {
 						sx={{
 							mt: 2,
 							lineHeight: 1.6,
+							fontSize:
+								isMobile
+									? "0.9rem"
+									: "1rem",
+							textAlign:
+								isMobile
+									? "center"
+									: "left",
 						}}>
 						{
 							selectedPerson?.bio
@@ -382,7 +458,7 @@ const Home: React.FC = () => {
 					sx={{
 						display: "flex",
 						justifyContent:
-							"flex-end",
+							"center",
 					}}>
 					<Button
 						onClick={
@@ -391,7 +467,6 @@ const Home: React.FC = () => {
 						sx={{
 							color:
 								"#383840",
-
 							fontWeight:
 								"bold",
 							backgroundColor:
@@ -401,6 +476,9 @@ const Home: React.FC = () => {
 									"#e0cfa9",
 							},
 							px: 5,
+							width: isMobile
+								? "100%"
+								: "auto",
 						}}>
 						Nice meeting you
 					</Button>
