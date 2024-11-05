@@ -23,20 +23,20 @@ const Home: React.FC = () => {
 			theme.breakpoints.down(
 				"sm"
 			)
-		); // Checks if the screen size is small
+		);
 	const numImages =
 		team.length;
 	const angle =
 		360 / numImages;
 	const translateZDistance =
 		isMobile
-			? 200
+			? 170
 			: 350 /
 			  (2 *
 					Math.tan(
 						Math.PI /
 							numImages
-					)); // Adjust carousel size for mobile
+					));
 	const [open, setOpen] =
 		useState(true);
 	const [
@@ -89,9 +89,9 @@ const Home: React.FC = () => {
 						"center",
 					alignItems:
 						"center",
-					width: "100vw", // Full viewport width to prevent horizontal scrolling
-					height: "100vh", // Full viewport height to prevent vertical scrolling
-					overflow: "hidden", // Prevent scrolling on mobile
+					width: "100vw",
+					height: "100vh",
+					overflow: "hidden",
 					background:
 						"linear-gradient(150deg, #c4ab6c, #383840)",
 					perspective:
@@ -110,15 +110,17 @@ const Home: React.FC = () => {
 							"relative",
 						width: isMobile
 							? "150px"
-							: "200px", // Adjust carousel width for mobile
+							: "200px",
 						height: isMobile
 							? "200px"
-							: "280px", // Adjust carousel height for mobile
+							: "280px",
 						transformStyle:
 							"preserve-3d",
 						animation: open
 							? "none"
-							: "animate 60s linear infinite",
+							: "animate 30s linear infinite", // Increased animation speed to 30s
+						willChange:
+							"transform",
 						"@keyframes animate":
 							{
 								"0%": {
@@ -154,8 +156,9 @@ const Home: React.FC = () => {
 									transform: `rotateY(${
 										i * angle
 									}deg) translateZ(${translateZDistance}px)`,
-									WebkitBoxReflect:
-										"below 2px linear-gradient(transparent, transparent, rgba(4, 4, 4, 0.267))",
+									willChange:
+										"transform", // Hardware acceleration hint
+									// Removed reflection for better performance
 								}}
 								onMouseEnter={() =>
 									setHoveredIndex(
@@ -202,6 +205,8 @@ const Home: React.FC = () => {
 												: "translateY(0)",
 										cursor:
 											"pointer",
+										willChange:
+											"transform", // Optimize for mobile rendering
 									}}
 								/>
 							</Box>
@@ -242,7 +247,7 @@ const Home: React.FC = () => {
 							fontSize:
 								isMobile
 									? "1.25rem"
-									: "1.5rem", // Adjust font size for mobile
+									: "1.5rem",
 						}}>
 						Not your ordinary
 						financial
@@ -257,7 +262,7 @@ const Home: React.FC = () => {
 							fontSize:
 								isMobile
 									? "0.9rem"
-									: "1.1rem", // Adjust font size for mobile
+									: "1.1rem",
 							textAlign:
 								"center",
 						}}>
@@ -302,7 +307,7 @@ const Home: React.FC = () => {
 							fontSize:
 								isMobile
 									? "0.9rem"
-									: "1rem", // Adjust button font size for mobile
+									: "1rem",
 						}}>
 						Meet the Team
 					</Button>
@@ -317,7 +322,7 @@ const Home: React.FC = () => {
 				onClose={
 					handleClosePersonDialog
 				}
-				fullScreen={isMobile} // Fullscreen on mobile for better display
+				fullScreen={isMobile}
 				PaperProps={{
 					sx: {
 						maxWidth: isMobile
@@ -327,7 +332,7 @@ const Home: React.FC = () => {
 						borderRadius:
 							isMobile
 								? 0
-								: "15px", // No border radius for mobile full screen
+								: "15px",
 						color: "#383840",
 					},
 				}}>
@@ -375,7 +380,6 @@ const Home: React.FC = () => {
 									? "center"
 									: "left"
 							}>
-							{/* Title */}
 							<Typography
 								variant="h5"
 								component="div"
@@ -399,7 +403,6 @@ const Home: React.FC = () => {
 									}
 								</span>
 							</Typography>
-							{/* Position */}
 							<Typography
 								variant="subtitle1"
 								color="textSecondary"
@@ -414,7 +417,6 @@ const Home: React.FC = () => {
 									selectedPerson?.position
 								}
 							</Typography>
-							{/* Tagline */}
 							<Typography
 								variant="body2"
 								color="#c4ab6c"
@@ -432,7 +434,6 @@ const Home: React.FC = () => {
 							</Typography>
 						</Box>
 					</Box>
-					{/* Description */}
 					<Typography
 						variant="body2"
 						color="textSecondary"
