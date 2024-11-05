@@ -1,7 +1,4 @@
-import {
-	useEffect,
-	useState,
-} from "react";
+import { useState } from "react";
 import {
 	Box,
 	Dialog,
@@ -11,9 +8,7 @@ import {
 	DialogTitle,
 	Button,
 	Typography,
-	IconButton,
 } from "@mui/material";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import {
 	team,
 	Person,
