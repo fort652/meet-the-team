@@ -207,6 +207,8 @@ const Home: React.FC = () => {
 											"pointer",
 										willChange:
 											"transform", // Optimize for mobile rendering
+										WebkitBoxReflect:
+											"below 2px linear-gradient(transparent, transparent, rgba(4, 4, 4, 0.267))",
 									}}
 								/>
 							</Box>
